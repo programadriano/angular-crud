@@ -1,0 +1,105 @@
+<div class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Gerenciamento de <b>Noticias</b></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Nova
+                            noticia</span></a>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="custom-checkbox">
+                            <input type="checkbox" id="selectAll">
+                            <label for="selectAll"></label>
+                        </span>
+                    </th>
+                    <th>Chapéu</th>
+                    <th>Autor</th>
+                    <th>Data de publicação</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let news of newsList">
+                    <td>
+                        <span class="custom-checkbox">
+                            <input type="checkbox" id="checkbox5" name="options[]" value="1">
+                            <label for="checkbox5"></label>
+                        </span>
+                    </td>
+                    <td>{{news.hat}}</td>
+                    <td>{{news.author}}</td>
+                    <td>{{news.publishDate | date}}</td>
+                    <td>
+                        <a (click)="triggerModal(modalData, news.id)" class="edit" data-toggle="modal"><i
+                                class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a (click)="deleteNews()" class="delete"><i class="material-icons" data-toggle="tooltip"
+                                title="Delete">&#xE872;</i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<ng-template #modalData let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Editar noticia</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Título:</label>
+                    <input type="text" value="{{news.title}}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Chapéu:</label>
+                    <input type="text" value="{{news.hat}}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Autor:</label>
+                    <input type="text" value="{{news.author}}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Descrição:</label>
+                    <textarea class="form-control" value="{{news.text}}" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Imagem:</label>
+                    <img src="{{news.img}}" style="width: 400px;" />
+                </div>
+
+                <div class="form-group">
+                    <a href="{{news.link}}" target="_blank">Link da notícia</a>
+                </div>
+
+                <div class="form-group">
+                    <label>Status:</label>
+                    <select>
+                       <option [selected]="news.status == 1 ? 'selected' : ''"  value="1">Ativo</option>
+                       <option [selected]="news.status == 2 ? 'selected' : ''" value="2">Inativo</option>
+                       <option [selected]="news.status == 3 ? 'selected' : ''" value="3">Rascunho</option>
+                   </select>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <input type="button" (click)="modal.close('Save click')" class="btn btn-danger" data-dismiss="modal" value="Cancelar">
+                <input type="submit" class="btn btn-success" value="Atualizar">
+            </div>
+        </form>
+    </div>
+</ng-template>
