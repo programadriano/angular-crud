@@ -12,6 +12,8 @@ import { HomeService } from './services/home.service';
 export class HomeComponent implements OnInit {
 
   closeModal: string = "";
+  formLabel: string = "";
+  btnLabel: string = "";
 
   constructor(
     private modalService: NgbModal,
@@ -38,18 +40,49 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  deleteNews() {
-    this.alertService.question("", "Deseja realmente deletar este registro?", "OK");
+
+
+  deleteNews(id: any) {
+    this.alertService.question("", "Deseja realmente deletar este registro?", "OK").then(data => {
+
+      if (data.isConfirmed) {
+        this.homeService.deleteNews(id).subscribe(() => {
+          this.alertService.success("", "Registro deletado com sucesso!", "OK");
+
+        });
+      }
+
+    });
   }
 
-  triggerModal(content: any, id: any) {
-   this.getNewsById(id);
+  addNews(content: any) {
+    this.formLabel = "Adicionar notícia";
+    this.btnLabel = "Salvar";
 
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
       this.closeModal = `Closed with: ${res}`;
     }, (res) => {
       this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
     });
+  }
+
+  editNews(content: any, id: any) {
+
+    this.formLabel = "Editar notícia";
+    this.btnLabel = "Atualizar";
+
+
+    this.getNewsById(id);
+
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
+      this.closeModal = `Closed with: ${res}`;
+    }, (res) => {
+      this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
+    });
+  }
+
+  sendForm() {
+    console.log(this.news);   
   }
 
   private getDismissReason(reason: any): string {

@@ -22,6 +22,13 @@ export class HomeService {
         catchError(this.httpUtil.processarErros));
   }
 
+  deleteNews(id: string) {
+    return this.http.delete(this.API_URL + 'news/' + id)
+      .pipe(map(this.httpUtil.extrairDados))
+      .pipe(
+         retryWhen(errors => errors.pipe(delay(1000), take(10))),
+        catchError(this.httpUtil.processarErros));
+  }
 
   getNewsById(id: string) {
     return this.http.get(this.API_URL + 'news/' + id)
