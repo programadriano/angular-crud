@@ -46,9 +46,10 @@ export class HomeComponent implements OnInit {
     this.alertService.question("", "Deseja realmente deletar este registro?", "OK").then(data => {
 
       if (data.isConfirmed) {
-        this.homeService.deleteNews(id).subscribe(() => {
+        this.homeService.deleteNews(id).subscribe(data => {
+          console.log(data);
+          this.getNews();
           this.alertService.success("", "Registro deletado com sucesso!", "OK");
-
         });
       }
 
@@ -82,7 +83,27 @@ export class HomeComponent implements OnInit {
   }
 
   sendForm() {
-    console.log(this.news);   
+
+    if (this.news.id != undefined) {
+      this.homeService.updateNews(this.news).subscribe(data => {
+        this.modalService.dismissAll();
+        this.getNews();
+        this.news = new News();
+
+        this.alertService.success('', 'Notícia atualizada com sucesso!', 'Ok')
+      });
+    } else {
+      this.homeService.createNews(this.news).subscribe(data => {
+        this.modalService.dismissAll();
+        this.getNews();
+        this.news = new News();
+        this.alertService.success('', 'Notícia criada com sucesso!', 'Ok')
+      });
+    }
+
+
+
+
   }
 
   private getDismissReason(reason: any): string {

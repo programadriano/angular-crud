@@ -11,6 +11,7 @@ export class HttpUtilService {
 
   extrairDados(response: any) {
     const data = response;
+    console.log(data);
     return data || {};
   }
 

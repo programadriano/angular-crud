@@ -23,10 +23,10 @@
             </thead>
             <tbody>
                 <tr *ngFor="let news of newsList">
-                    <td>{{news.hat}}</td>
-                    <td>{{news.author}}</td>
-                    <td>{{news.publishDate | date}}</td>
-                    <td>
+                    <td class="col-sm-4">{{news.hat}}</td>
+                    <td class="col-sm-4">{{news.author}}</td>
+                    <td class="col-sm-2">{{news.publishDate | date}}</td>
+                    <td class="col-sm-2">
                         <a (click)="editNews(modalData, news.id)" class="edit" data-toggle="modal"><i
                                 class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                         <a (click)="deleteNews(news.id)" class="delete"><i class="material-icons" data-toggle="tooltip"
