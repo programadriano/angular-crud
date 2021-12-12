@@ -47,7 +47,6 @@ export class HomeComponent implements OnInit {
 
       if (data.isConfirmed) {
         this.homeService.deleteNews(id).subscribe(data => {
-          console.log(data);
           this.getNews();
           this.alertService.success("", "Registro deletado com sucesso!", "OK");
         });
