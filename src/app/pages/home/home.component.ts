@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlertService } from 'src/app/shared/services/alert.service';
+import { UploadService } from 'src/app/shared/services/upload.service';
 import { News } from './models/news';
 import { HomeService } from './services/home.service';
 
@@ -14,18 +15,25 @@ export class HomeComponent implements OnInit {
   closeModal: string = "";
   formLabel: string = "";
   btnLabel: string = "";
+  localUrl: any;
+  file?: File;
+  selectedFile?: File;
+
 
   constructor(
     private modalService: NgbModal,
     private alertService: AlertService,
+    private uploadService: UploadService,
     private homeService: HomeService) { }
 
   public newsList: News[] = new Array<News>();
   public news: News = new News();
 
+
   ngOnInit(): void {
     this.getNews();
   }
+
 
   getNews() {
     this.homeService.getNews().subscribe((data: Array<News>) => {
@@ -36,10 +44,21 @@ export class HomeComponent implements OnInit {
   getNewsById(id: string) {
     this.homeService.getNewsById(id).subscribe((data: News) => {
       this.news = data;
+      this.localUrl = this.news.img;
       console.log(this.news);
     });
   }
 
+  selectFile(event: any) {
+    this.file = <File>event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.onload = (event: any) => {
+        this.localUrl = event.target.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
 
 
   deleteNews(id: any) {
@@ -56,6 +75,7 @@ export class HomeComponent implements OnInit {
   }
 
   addNews(content: any) {
+    this.news = new News();
     this.formLabel = "Adicionar notícia";
     this.btnLabel = "Salvar";
 
@@ -71,7 +91,6 @@ export class HomeComponent implements OnInit {
     this.formLabel = "Editar notícia";
     this.btnLabel = "Atualizar";
 
-
     this.getNewsById(id);
 
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
@@ -81,9 +100,19 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  sendForm() {
+
+
+  async sendForm() {
 
     if (this.news.id != undefined) {
+      if (this.file != undefined) {
+        let result = await this.uploadService.uploadFile(this.file).toPromise();
+        this.news.img = result.urlImagem;
+      }
+    }
+
+    if (this.news.id != undefined) {
+
       this.homeService.updateNews(this.news).subscribe(data => {
         this.modalService.dismissAll();
         this.getNews();

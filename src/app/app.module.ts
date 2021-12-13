@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { AlertService } from './shared/services/alert.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeModule } from './pages/home/home.module';
+import { UploadService } from './shared/services/upload.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HomeModule } from './pages/home/home.module';
     HttpClientModule
   ],
   providers:[
-    AlertService
+    AlertService,
+    UploadService
   ],
   bootstrap: [AppComponent]
 })

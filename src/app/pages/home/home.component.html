@@ -69,14 +69,15 @@
 
             <div class="form-group">
                 <label>Imagem:</label>
-                <input type="text" value="{{news.img}}" [(ngModel)]="news.img" class="form-control" required>
-                <!-- <img src="{{news.img}}" style="width: 400px;" /> -->
+                <!-- <input type="text" value="{{news.img}}" [(ngModel)]="news.img" class="form-control" required> -->
+                <!-- <img src="{{news.img}}" /> -->
+                <input type="file" (change)="selectFile($event)" class="form-control">
+                <img [src]="localUrl" *ngIf="localUrl" class="imgPlaceholder">
             </div>
 
             <div class="form-group">
                 <label>Link da notícia:</label>
                 <input type="text" value="{{news.link}}" [(ngModel)]="news.link" class="form-control" required>
-                <!-- <a *ngIf="news.link != null" href="{{news.link}}" target="_blank">Link da notícia</a> -->
             </div>
 
             <div class="form-group">

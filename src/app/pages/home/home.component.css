@@ -272,3 +272,8 @@ table.table .avatar {
 .modal form label {
     font-weight: normal;
 }
+
+.imgPlaceholder {
+    width: 150px;
+    margin: 10px;
+}
