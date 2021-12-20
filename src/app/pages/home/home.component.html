@@ -69,8 +69,6 @@
 
             <div class="form-group">
                 <label>Imagem:</label>
-                <!-- <input type="text" value="{{news.img}}" [(ngModel)]="news.img" class="form-control" required> -->
-                <!-- <img src="{{news.img}}" /> -->
                 <input type="file" (change)="selectFile($event)" class="form-control">
                 <img [src]="localUrl" *ngIf="localUrl" class="imgPlaceholder">
             </div>

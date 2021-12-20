@@ -4,6 +4,8 @@ import { AlertService } from 'src/app/shared/services/alert.service';
 import { UploadService } from 'src/app/shared/services/upload.service';
 import { News } from './models/news';
 import { HomeService } from './services/home.service';
+import { firstValueFrom } from 'rxjs';
+
 
 @Component({
   selector: 'app-home',
@@ -104,12 +106,12 @@ export class HomeComponent implements OnInit {
 
   async sendForm() {
 
-    if (this.news.id != undefined) {
-      if (this.file != undefined) {
-        let result = await this.uploadService.uploadFile(this.file).toPromise();
-        this.news.img = result.urlImagem;
-      }
+    if (this.file != undefined) {
+      let upload = this.uploadService.uploadFile(this.file);
+      let result = await firstValueFrom(upload);
+      this.news.img = result.urlImagem;
     }
+
 
     if (this.news.id != undefined) {
 
