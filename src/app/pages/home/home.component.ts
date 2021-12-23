@@ -80,7 +80,8 @@ export class HomeComponent implements OnInit {
     this.news = new News();
     this.formLabel = "Adicionar notícia";
     this.btnLabel = "Salvar";
-
+    this.localUrl = "";
+    
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
       this.closeModal = `Closed with: ${res}`;
     }, (res) => {
@@ -105,6 +106,9 @@ export class HomeComponent implements OnInit {
 
 
   async sendForm() {
+
+
+    this.localUrl = "";
 
     if (this.file != undefined) {
       let upload = this.uploadService.uploadFile(this.file);
