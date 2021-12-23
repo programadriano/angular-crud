@@ -7,6 +7,8 @@ import { AlertService } from './shared/services/alert.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeModule } from './pages/home/home.module';
 import { UploadService } from './shared/services/upload.service';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,7 @@ import { UploadService } from './shared/services/upload.service';
     BrowserModule,
     HomeModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule 
   ],
   providers:[
     AlertService,

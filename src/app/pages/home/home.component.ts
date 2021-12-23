@@ -5,6 +5,7 @@ import { UploadService } from 'src/app/shared/services/upload.service';
 import { News } from './models/news';
 import { HomeService } from './services/home.service';
 import { firstValueFrom } from 'rxjs';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 @Component({
@@ -30,6 +31,8 @@ export class HomeComponent implements OnInit {
 
   public newsList: News[] = new Array<News>();
   public news: News = new News();
+  public Editor = ClassicEditor;
+
 
 
   ngOnInit(): void {
@@ -81,7 +84,7 @@ export class HomeComponent implements OnInit {
     this.formLabel = "Adicionar notícia";
     this.btnLabel = "Salvar";
     this.localUrl = "";
-    
+
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
       this.closeModal = `Closed with: ${res}`;
     }, (res) => {

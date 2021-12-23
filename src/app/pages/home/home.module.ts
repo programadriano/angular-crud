@@ -5,6 +5,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { HomeService } from './services/home.service';
 import { FormsModule } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    CKEditorModule
   ],
   providers: [
     HomeService

@@ -277,3 +277,7 @@ table.table .avatar {
     width: 150px;
     margin: 10px;
 }
+
+:host ::ng-deep .ck.ck-editor__editable {
+    min-height: 200px;
+}
