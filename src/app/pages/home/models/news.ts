@@ -6,6 +6,5 @@ export class News {
     author?: String;
     img?: String;
     publishDate?: Date;
-    link?: String;
     status?: Number;
 }
