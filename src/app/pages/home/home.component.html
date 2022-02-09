@@ -36,6 +36,14 @@
             </tbody>
         </table>
     </div>
+    <nav aria-label="Page navigation example" style="cursor: pointer;">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" *ngFor="let page of totalPages;let i = index" (click)="pagination(i + 1)"><a
+                    class="page-link">{{i +
+                    1}}</a></li>
+        </ul>
+    </nav>
+
 </div>
 
 
@@ -65,7 +73,6 @@
 
             <div class="form-group">
                 <label>Descrição:</label>
-                <!-- <textarea class="form-control" [(ngModel)]="news.text" value="{{news.text}}" required></textarea> -->
                 <ckeditor [(ngModel)]="news.text" debounce="300" [editor]="Editor"></ckeditor>
             </div>
 
@@ -74,11 +81,6 @@
                 <input type="file" (change)="selectFile($event)" class="form-control">
                 <img [src]="localUrl" *ngIf="localUrl" class="imgPlaceholder">
             </div>
-
-            <!-- <div class="form-group">
-                <label>Link da notícia:</label>
-                <input type="text" value="{{news.link}}" [(ngModel)]="news.link" class="form-control" required>
-            </div> -->
 
             <div class="form-group">
                 <label>Status:</label>
@@ -91,9 +93,11 @@
 
         </div>
         <div class="modal-footer">
-            <input type="button" (click)="modal.close('Save click')" class="btn btn-danger" data-dismiss="modal" value="Cancelar">
+            <input type="button" (click)="modal.close('Save click')" class="btn btn-danger" data-dismiss="modal"
+                value="Cancelar">
             <input type="submit" (click)="sendForm()" class="btn btn-success" value="{{btnLabel}}">
         </div>
-
     </div>
+
+
 </ng-template>

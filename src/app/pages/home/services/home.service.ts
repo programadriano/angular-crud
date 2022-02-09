@@ -15,8 +15,8 @@ export class HomeService {
 
   constructor(private http: HttpClient, private httpUtil: HttpUtilService) { }
 
-  getNews() {
-    return this.http.get(this.API_URL + 'news')
+  getNews(page: number, qtd: number) {
+    return this.http.get(this.API_URL + `news/${page}/${qtd}`)
       .pipe(map(this.httpUtil.extrairDados))
       .pipe(
         retryWhen(errors => errors.pipe(delay(1000), take(10))),

@@ -6,6 +6,7 @@ import { News } from './models/news';
 import { HomeService } from './services/home.service';
 import { firstValueFrom } from 'rxjs';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Result } from 'src/app/shared/services/result';
 
 
 @Component({
@@ -29,21 +30,32 @@ export class HomeComponent implements OnInit {
     private uploadService: UploadService,
     private homeService: HomeService) { }
 
-  public newsList: News[] = new Array<News>();
+  public newsList: News[] | undefined = new Array<News>();
   public news: News = new News();
   public Editor = ClassicEditor;
+  totalPages: number[] = [];
+  hasPagination = false;
 
 
 
   ngOnInit(): void {
-    this.getNews();
+    this.getNews(1, 4);
   }
 
 
-  getNews() {
-    this.homeService.getNews().subscribe((data: Array<News>) => {
-      this.newsList = data;
+  getNews(page: number, qtd: number) {
+    this.homeService.getNews(page, qtd).subscribe((result: Result<News>) => {
+      let obj = result;
+      this.totalPages = new Array(obj.total);
+      console.log(this.totalPages)
+      this.hasPagination = this.totalPages.length > 1;
+
+      this.newsList = obj.data;
     });
+  }
+
+  pagination(page: number) {
+    this.getNews(page, 4);
   }
 
   getNewsById(id: string) {
@@ -71,7 +83,7 @@ export class HomeComponent implements OnInit {
 
       if (data.isConfirmed) {
         this.homeService.deleteNews(id).subscribe(data => {
-          this.getNews();
+          this.getNews(1, 4);
           this.alertService.success("", "Registro deletado com sucesso!", "OK");
         });
       }
@@ -124,7 +136,7 @@ export class HomeComponent implements OnInit {
 
       this.homeService.updateNews(this.news).subscribe(data => {
         this.modalService.dismissAll();
-        this.getNews();
+        this.getNews(1, 4);
         this.news = new News();
 
         this.alertService.success('', 'Notícia atualizada com sucesso!', 'Ok')
@@ -132,7 +144,7 @@ export class HomeComponent implements OnInit {
     } else {
       this.homeService.createNews(this.news).subscribe(data => {
         this.modalService.dismissAll();
-        this.getNews();
+        this.getNews(1, 4);
         this.news = new News();
         this.alertService.success('', 'Notícia criada com sucesso!', 'Ok')
       });
