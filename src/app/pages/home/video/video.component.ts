@@ -5,8 +5,9 @@ import { UploadService } from 'src/app/shared/services/upload.service';
 import { firstValueFrom } from 'rxjs';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Result } from 'src/app/shared/services/result';
-import { HomeService } from '../services/home.service';
 import { News } from '../models/news';
+import { VideoService } from './services/video.service';
+import { Video } from '../models/video';
 
 
 @Component({
@@ -20,7 +21,10 @@ export class VideoComponent implements OnInit {
   formLabel: string = "";
   btnLabel: string = "";
   localUrl: any;
+  localVideoUrl: any;
   file?: File;
+  videoFile?: File;
+
   selectedFile?: File;
 
 
@@ -28,43 +32,46 @@ export class VideoComponent implements OnInit {
     private modalService: NgbModal,
     private alertService: AlertService,
     private uploadService: UploadService,
-    private homeService: HomeService) { }
+    private videoService: VideoService) { }
 
-  public newsList: News[] | undefined = new Array<News>();
-  public news: News = new News();
+  public videoList: Video[] | undefined = new Array<Video>();
+  public video: Video = new Video();
   public Editor = ClassicEditor;
   totalPages: number[] = [];
   hasPagination = false;
 
-
-
   ngOnInit(): void {
-    this.getNews(1, 4);
+    this.getVideos(1, 4);
   }
 
 
-  getNews(page: number, qtd: number) {
-    this.homeService.getNews(page, qtd).subscribe((result: Result<News>) => {
+  getVideos(page: number, qtd: number) {
+    this.videoService.getVideos(page, qtd).subscribe((result: Result<Video>) => {
       let obj = result;
       this.totalPages = new Array(obj.total);
-      console.log(this.totalPages)
       this.hasPagination = this.totalPages.length > 1;
-
-      this.newsList = obj.data;
+      this.videoList = obj.data;
     });
   }
 
   pagination(page: number) {
-    this.getNews(page, 4);
+    this.getVideos(page, 4);
   }
 
-  getNewsById(id: string) {
-    this.homeService.getNewsById(id).subscribe((data: News) => {
-      this.news = data;
-      this.localUrl = this.news.img;
-      console.log(this.news);
+  getVideoById(id: string) {
+    this.videoService.getVideoById(id).subscribe((data: News) => {
+      this.video = data;
+      this.localUrl = this.video.thumbnail;
+      this.localVideoUrl = this.video.urlVideo;
     });
   }
+
+
+  selectVideo(event: any) {
+    this.videoFile = <File>event.target.files[0];
+    this.localVideoUrl = this.videoFile.name;
+  }
+
 
   selectFile(event: any) {
     this.file = <File>event.target.files[0];
@@ -78,12 +85,12 @@ export class VideoComponent implements OnInit {
   }
 
 
-  deleteNews(id: any) {
+  deleteVideo(id: any) {
     this.alertService.question("", "Deseja realmente deletar este registro?", "OK").then(data => {
 
       if (data.isConfirmed) {
-        this.homeService.deleteNews(id).subscribe(data => {
-          this.getNews(1, 4);
+        this.videoService.deleteVideo(id).subscribe(data => {
+          this.getVideos(1, 4);
           this.alertService.success("", "Registro deletado com sucesso!", "OK");
         });
       }
@@ -91,9 +98,9 @@ export class VideoComponent implements OnInit {
     });
   }
 
-  addNews(content: any) {
-    this.news = new News();
-    this.formLabel = "Adicionar notícia";
+  addVideo(content: any) {
+    this.video = new Video();
+    this.formLabel = "Adicionar vídeo";
     this.btnLabel = "Salvar";
     this.localUrl = "";
 
@@ -104,12 +111,12 @@ export class VideoComponent implements OnInit {
     });
   }
 
-  editNews(content: any, id: any) {
+  editVideo(content: any, id: any) {
 
-    this.formLabel = "Editar notícia";
+    this.formLabel = "Editar vídeo";
     this.btnLabel = "Atualizar";
 
-    this.getNewsById(id);
+    this.getVideoById(id);
 
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((res) => {
       this.closeModal = `Closed with: ${res}`;
@@ -125,28 +132,37 @@ export class VideoComponent implements OnInit {
 
     this.localUrl = "";
 
-    if (this.file != undefined) {
-      let upload = this.uploadService.uploadFile(this.file);
+
+    if (this.videoFile != undefined) {
+      let upload = this.uploadService.uploadFile(this.videoFile);
       let result = await firstValueFrom(upload);
-      this.news.img = result.urlImagem;
+      console.log(result);
+      this.video.urlVideo = result.urlImagem;
     }
 
 
-    if (this.news.id != undefined) {
+    if (this.file != undefined) {
+      let upload = this.uploadService.uploadFile(this.file);
+      let result = await firstValueFrom(upload);
+      this.video.thumbnail = result.urlImagem;
+    }
 
-      this.homeService.updateNews(this.news).subscribe(data => {
+
+    if (this.video.id != undefined) {
+
+      this.videoService.updateVideo(this.video).subscribe(data => {
         this.modalService.dismissAll();
-        this.getNews(1, 4);
-        this.news = new News();
+        this.getVideos(1, 4);
+        this.video = new News();
 
-        this.alertService.success('', 'Notícia atualizada com sucesso!', 'Ok')
+        this.alertService.success('', 'Vídeo atualizado com sucesso!', 'Ok')
       });
     } else {
-      this.homeService.createNews(this.news).subscribe(data => {
+      this.videoService.createVideo(this.video).subscribe(data => {
         this.modalService.dismissAll();
-        this.getNews(1, 4);
-        this.news = new News();
-        this.alertService.success('', 'Notícia criada com sucesso!', 'Ok')
+        this.getVideos(1, 4);
+        this.video = new News();
+        this.alertService.success('', 'Vídeo criado com sucesso!', 'Ok')
       });
     }
   }

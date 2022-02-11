@@ -17,7 +17,7 @@ export class UploadService {
         const formData: FormData = new FormData();
         console.log(file.name);
         console.log(file);
-        formData.append('image', file);
+        formData.append('file', file);
 
         return this.http.post(this.API_URL + `api/upload`, formData)
             .pipe(map(this.httpUtil.extrairDados))
@@ -25,4 +25,5 @@ export class UploadService {
                 retryWhen(errors => errors.pipe(delay(1000), take(10))),
                 catchError(this.httpUtil.processarErros));
     }
+    
 }

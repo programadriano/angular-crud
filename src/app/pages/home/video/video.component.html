@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="container">
     <div class="table-wrapper">
         <div class="table-title">
@@ -6,7 +7,7 @@
                     <h2>Gerenciamento de <b>Vídeos</b></h2>
                 </div>
                 <div class="col-sm-6">
-                    <a (click)="addNews(modalData)" class="btn btn-success"><i class="material-icons">&#xE147;</i>
+                    <a (click)="addVideo(modalData)" class="btn btn-success"><i class="material-icons">&#xE147;</i>
                         <span>Novo
                             vídeo</span></a>
                 </div>
@@ -22,15 +23,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let news of newsList">
-                    <td class="col-sm-4">{{news.hat}}</td>
-                    <td class="col-sm-4">{{news.author}}</td>
-                    <td class="col-sm-2">{{news.publishDate | date}}</td>
+                <tr *ngFor="let video of videoList">
+                    <td class="col-sm-4">{{video.hat}}</td>
+                    <td class="col-sm-4">{{video.author}}</td>
+                    <td class="col-sm-2">{{video.publishDate | date}}</td>
                     <td class="col-sm-2">
-                        <a (click)="editNews(modalData, news.id)" class="edit" data-toggle="modal"><i
+                        <a (click)="editVideo(modalData, video.id)" class="edit" data-toggle="modal"><i
                                 class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                        <a (click)="deleteNews(news.id)" class="delete"><i class="material-icons" data-toggle="tooltip"
-                                title="Delete">&#xE872;</i></a>
+                        <a (click)="deleteVideo(video.id)" class="delete"><i class="material-icons"
+                                data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
                 </tr>
             </tbody>
@@ -59,21 +60,24 @@
         <div class="modal-body">
             <div class="form-group">
                 <label>Título:</label>
-                <input type="text" [(ngModel)]="news.title" value="{{news.title}}" class="form-control" required>
+                <input type="text" [(ngModel)]="video.title" value="{{video.title}}" class="form-control" required>
 
             </div>
             <div class="form-group">
                 <label>Chapéu:</label>
-                <input type="text" value="{{news.hat}}" [(ngModel)]="news.hat" class="form-control" required>
+                <input type="text" value="{{video.hat}}" [(ngModel)]="video.hat" class="form-control" required>
             </div>
             <div class="form-group">
                 <label>Autor:</label>
-                <input type="text" value="{{news.author}}" [(ngModel)]="news.author" class="form-control" required>
+                <input type="text" value="{{video.author}}" [(ngModel)]="video.author" class="form-control" required>
             </div>
 
             <div class="form-group">
-                <label>Descrição:</label>
-                <ckeditor [(ngModel)]="news.text" debounce="300" [editor]="Editor"></ckeditor>
+                <label>Vídeo:</label>
+                <input type="file" (change)="selectVideo($event)" class="form-control">
+                <input type="text" *ngIf="localVideoUrl" disabled value="{{localVideoUrl}}" [(ngModel)]="localVideoUrl" class="form-control" required>
+
+
             </div>
 
             <div class="form-group">
@@ -84,10 +88,10 @@
 
             <div class="form-group">
                 <label>Status:</label>
-                <select [(ngModel)]="news.status">
-                    <option [selected]="news.status == 1 ? 'selected' : ''" value="1">Ativo</option>
-                    <option [selected]="news.status == 2 ? 'selected' : ''" value="2">Inativo</option>
-                    <option [selected]="news.status == 3 ? 'selected' : ''" value="3">Rascunho</option>
+                <select [(ngModel)]="video.status">
+                    <option [selected]="video.status == 1 ? 'selected' : ''" value="1">Ativo</option>
+                    <option [selected]="video.status == 2 ? 'selected' : ''" value="2">Inativo</option>
+                    <option [selected]="video.status == 3 ? 'selected' : ''" value="3">Rascunho</option>
                 </select>
             </div>
 

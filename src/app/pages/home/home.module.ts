@@ -8,13 +8,15 @@ import { FormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { VideoComponent } from './video/video.component';
 import { NewsComponent } from './news/news.component';
+import { HeaderComponent } from '../components/header/header.component';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
     VideoComponent,
-    NewsComponent
+    NewsComponent,
+    HeaderComponent
   ],
   imports: [
     CommonModule,
