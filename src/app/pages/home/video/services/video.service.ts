@@ -16,7 +16,7 @@ export class VideoService {
   constructor(private http: HttpClient, private httpUtil: HttpUtilService) { }
 
   getVideos(page: number, qtd: number) {
-    return this.http.get(this.API_URL + `videos/${page}/${qtd}`)
+    return this.http.get(this.API_URL + `video/${page}/${qtd}`)
       .pipe(map(this.httpUtil.extrairDados))
       .pipe(
         retryWhen(errors => errors.pipe(delay(1000), take(10))),
@@ -25,7 +25,7 @@ export class VideoService {
 
   createVideo(video: Video) {
     video.status = Number(video.status);
-    return this.http.post(this.API_URL + `videos`, video)
+    return this.http.post(this.API_URL + `video`, video)
       .pipe(map(this.httpUtil.extrairDados))
       .pipe(
         retryWhen(errors => errors.pipe(delay(1000), take(10))),
@@ -33,7 +33,7 @@ export class VideoService {
   }
 
   updateVideo(video: Video) {
-    return this.http.put(this.API_URL + `videos/${video.id}`, video)
+    return this.http.put(this.API_URL + `video/${video.id}`, video)
       .pipe(map(this.httpUtil.extrairDados))
       .pipe(
         retryWhen(errors => errors.pipe(delay(1000), take(10))),
@@ -41,7 +41,7 @@ export class VideoService {
   }
 
   deleteVideo(id: string) {
-    return this.http.delete(this.API_URL + 'videos/' + id)
+    return this.http.delete(this.API_URL + 'video/' + id)
       .pipe(map(this.httpUtil.extrairDados))
       .pipe(
         retryWhen(errors => errors.pipe(delay(1000), take(3))),
@@ -49,7 +49,7 @@ export class VideoService {
   }
 
   getVideoById(id: string) {
-    return this.http.get(this.API_URL + 'videos/' + id)
+    return this.http.get(this.API_URL + 'video/' + id)
       .pipe(map(this.httpUtil.extrairDados))
       .pipe(
         retryWhen(errors => errors.pipe(delay(1000), take(10))),
