@@ -1,0 +1,18 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="../../../assets/avatar.png" id="icon" alt="User Icon" />
+        </div>
+
+        <!-- Login Form -->
+        <form>
+            <input type="text" id="login" class="fadeIn second" name="login" placeholder="Usuario" required formControlName="username">
+            <input type="password" id="password" class="fadeIn third" name="login" placeholder="Senha" required formControlName="password">
+            <input type="submit" class="fadeIn fourth" (click)="autentica()" value="Acessar">
+        </form>
+
+    </div>
+</div>
