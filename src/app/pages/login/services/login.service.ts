@@ -11,7 +11,7 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
 
-  logIn({ username, password }): Observable<string> {
+  logIn({ username, password }) {
 
     let credencial =
     {
@@ -19,6 +19,6 @@ export class LoginService {
       "password": password
     }
 
-    return this.http.post<string>(`${environment.URL}/auth`, credencial);
+    return this.http.post(`${environment.URL}auth`, credencial);
   }
 }

@@ -256,6 +256,7 @@ input[type=password]:placeholder {
     -webkit-animation-delay: 1s;
     -moz-animation-delay: 1s;
     animation-delay: 1s;
+    cursor: pointer;
 }
 
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { LoginService } from './services/login.service';
@@ -9,9 +10,10 @@ import { LoginService } from './services/login.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  public loginForm!: FormGroup;
 
 
-  constructor(
+  constructor(private _formBuilder: FormBuilder,
     private _loginService: LoginService,
     private _router: Router,
     private _alertService: AlertService
@@ -19,19 +21,31 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.logOut();
+    this.iniciaFormulario();
+  }
+
+
+
+  iniciaFormulario() {
+    this.loginForm = this._formBuilder.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
   }
 
 
   autentica() {
-    // this._loginService.logIn(this.loginForm.value).subscribe((token: any) => {
+    this._loginService.logIn(this.loginForm.value).subscribe((data: any) => {
 
-    //   if (token === null)
-    //     return this._alertService.error('', 'Usuário ou senha incorreto(s)!', 'OK');
-    //   localStorage.setItem('token', token);
-    //   //localStorage.setItem('user', JSON.stringify(usuario));
-    //   // localStorage.setItem('correlationId', uuidv4());
-    //   this._router.navigate(['/home']);
-    // })
+      if (data === null) {
+        this._alertService.error('', 'Usuário ou senha incorreto(s)!', 'OK');
+      } else {
+        localStorage.setItem('token', data.token);
+        console.log(JSON.stringify(data.token));
+        this._router.navigate(['/home']);
+      }
+
+    })
   }
 
   logOut() {

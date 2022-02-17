@@ -6,7 +6,7 @@ import { LoginComponent } from './login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from './services/login.service';
 
-//http://localhost:4200/login
+
 @NgModule({
   declarations: [
     LoginComponent
@@ -14,8 +14,9 @@ import { LoginService } from './services/login.service';
   imports: [
     CommonModule,
     LoginRoutingModule,
-    FormsModule
-  ],providers:[
+    FormsModule,
+    ReactiveFormsModule
+  ], providers: [
     LoginService
   ]
 })

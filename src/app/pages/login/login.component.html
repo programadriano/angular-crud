@@ -8,10 +8,10 @@
         </div>
 
         <!-- Login Form -->
-        <form>
+        <form [formGroup]="loginForm">
             <input type="text" id="login" class="fadeIn second" name="login" placeholder="Usuario" required formControlName="username">
             <input type="password" id="password" class="fadeIn third" name="login" placeholder="Senha" required formControlName="password">
-            <input type="submit" class="fadeIn fourth" (click)="autentica()" value="Acessar">
+            <input type="submit" class="fadeIn fourth" [disabled]="!loginForm.valid" (click)="autentica()" value="Acessar">
         </form>
 
     </div>

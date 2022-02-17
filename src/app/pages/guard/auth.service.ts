@@ -7,17 +7,20 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {
 
-  constructor(public  _jwtHelper: JwtHelperService) { }
+  constructor(public _jwtHelper: JwtHelperService) { }
 
   public GetToken(): string | null {
+    console.log(localStorage.getItem('token'));
     return localStorage.getItem('token');
   }
 
   public isAuthenticated(): boolean {
     let token = this.GetToken();
-    if(token != null){
-        return !this._jwtHelper.isTokenExpired(token);
-    }
-    return false;
+    if (token === null) {
+      return false;
+    }   
+
+    return this._jwtHelper.isTokenExpired(token);
+
   }
 }

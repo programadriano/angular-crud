@@ -47,7 +47,7 @@ export class NewsComponent implements OnInit {
   getNews(page: number, qtd: number) {
     this.homeService.getNews(page, qtd).subscribe((result: Result<News>) => {
       let obj = result;
-      this.totalPages = new Array(obj.total);
+      this.totalPages = new Array(obj.totalPages);
       console.log(this.totalPages)
       this.hasPagination = this.totalPages.length > 1;
 

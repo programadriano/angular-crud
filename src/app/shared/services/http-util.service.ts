@@ -18,4 +18,16 @@ export class HttpUtilService {
   processarErros(erro: any) {
     return throwError(() => new Error(erro))
   }
+
+  get token(): any {
+    const token = localStorage.getItem('token');
+
+    return token;
+  }
+
+
+  public isAuthenticated(): boolean {
+    const token = this.token;
+    return token != null;
+  }
 }
