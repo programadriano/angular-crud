@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/shared/services/alert.service';
-import { HttpUtilService } from 'src/app/shared/services/http-util.service';
 
 
 @Injectable({
