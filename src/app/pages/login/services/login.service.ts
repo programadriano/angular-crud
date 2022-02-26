@@ -19,6 +19,6 @@ export class LoginService {
       "password": password
     }
 
-    return this.http.post(`${environment.URL}auth`, credencial);
+    return this.http.post(`${environment.URLAuth}auth`, credencial);
   }
 }
