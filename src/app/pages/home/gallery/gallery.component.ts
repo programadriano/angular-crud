@@ -51,7 +51,6 @@ export class GalleryComponent implements OnInit {
       this.totalPages = new Array(obj.totalPages);
       console.log(this.totalPages)
       this.hasPagination = this.totalPages.length > 1;
-
       this.galleryList = obj.data;
     });
   }
@@ -63,6 +62,9 @@ export class GalleryComponent implements OnInit {
   getGalleryById(id: string) {
     this.homeService.getGalleryById(id).subscribe((data: Gallery) => {
       this.gallery = data;
+      this.localUrl = this.gallery.thumb;
+      
+
     });
   }
 

@@ -104,7 +104,7 @@
                 <div *ngIf="gallery.galleryImages" class="container">
                     <div class="row">
                         <div class="col-12" *ngFor="let image of gallery.galleryImages; let i = index">
-                            <img style="margin: 10px;" src="{{ image }}">
+                            <img style="margin: 10px;height: 126px;float:left; width: 200px;" src="{{ image }}">
                             <a (click)="removeImageGallery(image)" class="delete" style="color:red;cursor: pointer;"><i
                                     class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         </div>
