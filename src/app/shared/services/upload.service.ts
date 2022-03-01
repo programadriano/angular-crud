@@ -13,12 +13,10 @@ export class UploadService {
 
     constructor(private http: HttpClient, private httpUtil: HttpUtilService) { }
 
-    uploadFile(file: File) {      
-        const formData: FormData = new FormData();
-        console.log(file.name);
-        console.log(file);
-        formData.append('file', file);
+    uploadFile(file: any) {      
 
+        const formData: FormData = new FormData();
+        formData.append('file', file);
         return this.http.post(this.API_URL + `api/upload`, formData)
             .pipe(map(this.httpUtil.extrairDados))
             .pipe(

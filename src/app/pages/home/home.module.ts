@@ -9,6 +9,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { VideoComponent } from './video/video.component';
 import { NewsComponent } from './news/news.component';
 import { HeaderComponent } from '../components/header/header.component';
+import { GalleryComponent } from './gallery/gallery.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { HeaderComponent } from '../components/header/header.component';
     HomeComponent,
     VideoComponent,
     NewsComponent,
-    HeaderComponent
+    HeaderComponent,
+    GalleryComponent
   ],
   imports: [
     CommonModule,
