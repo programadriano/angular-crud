@@ -62,7 +62,7 @@ export class GalleryComponent implements OnInit {
 
   getGalleryById(id: string) {
     this.homeService.getGalleryById(id).subscribe((data: Gallery) => {
-      this.gallery = data;      
+      this.gallery = data;
     });
   }
 
@@ -78,8 +78,19 @@ export class GalleryComponent implements OnInit {
     }
   }
 
-  
-  removeImageGallery(urlImage: any){
+  selectThumb(event: any) {
+    this.file = <File>event.target.files[0];
+
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.onload = (event: any) => {
+        this.localUrl = event.target.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  removeImageGallery(urlImage: any) {
     this.gallery.galleryImages = this.gallery.galleryImages?.filter(item => item !== urlImage);
 
   }
@@ -136,12 +147,15 @@ export class GalleryComponent implements OnInit {
         let upload = this.uploadService.uploadFile(this.selectedFiles[index]);
         let result = await firstValueFrom(upload);
         this.gallery.galleryImages.push(result.urlImagem);
-        console.log(this.gallery.galleryImages,'GLAEE')
+        console.log(this.gallery.galleryImages, 'GLAEE')
       }
     }
 
-    console.log(this.gallery)
-    console.log(this.gallery.galleryImages)
+    if (this.file != undefined) {
+      let upload = this.uploadService.uploadFile(this.file);
+      let result = await firstValueFrom(upload);
+      this.gallery.thumb = result.urlImagem;
+    }
 
 
 
